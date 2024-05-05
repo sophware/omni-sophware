@@ -1,0 +1,5 @@
+machine:
+  certSANs:
+  - hikev.home.domain.com
+  - hikev
+  - 192.168.253.241

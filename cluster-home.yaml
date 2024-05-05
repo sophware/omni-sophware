@@ -1,0 +1,45 @@
+kind: Cluster
+name: home
+talos:
+  version: v1.7.1
+kubernetes:
+  version: 1.29.4
+features:
+  enableWorkloadProxy: true
+  backupConfiguration:
+    interval: 4h
+patches:
+  - name: cluster-base
+    file: /Users/sophware/git/omni-sophware/patches/cluster.yaml
+  - name: cluster-certs
+    file: /Users/sophware/git/omni-sophware/patches/cluster-certs-home.yaml
+
+---
+kind: ControlPlane
+machines:
+  - 6a0c0042-24b8-eb8f-ccc5-d37d51bdc07f  # hikev
+patches:
+  - name: controlplane-base
+    file: /Users/sophware/git/omni-sophware/patches/controlplane.yaml
+  - name: machine-certs
+    file: /Users/sophware/git/omni-sophware/patches/machine-certs-home.yaml
+systemExtensions:
+  - siderolabs/iscsi-tools
+  - siderolabs/util-linux-tools
+  - siderolabs/i915-ucode
+
+---
+kind: Workers
+name: workers
+machines: []
+patches: []
+
+---
+kind: Machine
+name: 6a0c0042-24b8-eb8f-ccc5-d37d51bdc07f
+patches:
+  - name: set-nodename
+    inline:
+      machine:
+        network:
+          hostname: "hikevin"
